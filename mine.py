@@ -30,8 +30,9 @@ for i in range(20):
     y = random.randint(0, HEIGHT - BLOCK_SIZE)
     blocks.append(pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE))
 
-# Set the speed of the player
+# Set the speed of the player and score
 player_speed = 5
+score = 0
 
 # Create a clock to control the frame rate
 clock = pygame.time.Clock()
@@ -61,6 +62,7 @@ while True:
         if block.colliderect(pygame.Rect(player_pos, PLAYER_SIZE)):
             # Remove the block if the player collides with it
             blocks.remove(block)
+            score += 1
 
     # Clear the screen
     screen.fill((0, 0, 0))
@@ -71,6 +73,15 @@ while True:
 
     # Draw the player
     pygame.draw.rect(screen, PLAYER_COLOR, (player_pos, PLAYER_SIZE))
+    print(score)
+
+    if score == 20 :
+    for i in range(20):
+    x = random.randint(0, WIDTH - BLOCK_SIZE)
+    y = random.randint(0, HEIGHT - BLOCK_SIZE)
+    blocks.append(pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE))
+    screen.fill((0, 0, 0))
+        pygame.draw.rect(screen, BLOCK_COLOR, block)
 
     # Update the display
     pygame.display.flip()
