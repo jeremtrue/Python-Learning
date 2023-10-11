@@ -9,6 +9,8 @@ def roll():
 root = tk.Tk()
 root.title("Dice Roll")
 
+root.geometry("400x300")
+
 instructions_label = tk.Label(root, text="Enter the dice without the 'D'")
 instructions_label.pack()
 
@@ -19,7 +21,7 @@ entry.pack()
 roll_button = tk.Button(root, text="Roll", command=roll)
 roll_button.pack()
 
-result_label = tk.Label(root, text="")
+result_label = tk.Label(root, font=custom_font, text="")
 result_label.pack()
 
 root.mainloop()
