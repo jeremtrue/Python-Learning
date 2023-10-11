@@ -21,14 +21,10 @@ BLOCK_SIZE = 16
 PLAYER_SIZE = (BLOCK_SIZE, BLOCK_SIZE)
 
 # Set the initial position of the player
-player_pos = (WIDTH // 2, HEIGHT // 2)
+player_pos = [WIDTH // 2, HEIGHT // 2]
 
 # Create a list of blocks
-blocks = []
-for i in range(20):
-    x = random.randint(0, WIDTH - BLOCK_SIZE)
-    y = random.randint(0, HEIGHT - BLOCK_SIZE)
-    blocks.append(pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE))
+blocks = [pygame.Rect(random.randint(0, WIDTH - BLOCK_SIZE), random.randint(0, HEIGHT - BLOCK_SIZE), BLOCK_SIZE, BLOCK_SIZE) for _ in range(20)]
 
 # Set the speed of the player and score
 player_speed = 5
@@ -49,17 +45,17 @@ while True:
     # Handle keyboard input
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        player_pos = (player_pos[0] - player_speed, player_pos[1])
+        player_pos[0] -= player_speed
     if keys[pygame.K_RIGHT]:
-        player_pos = (player_pos[0] + player_speed, player_pos[1])
+        player_pos[0] += player_speed
     if keys[pygame.K_UP]:
-        player_pos = (player_pos[0], player_pos[1] - player_speed)
+        player_pos[1] -= player_speed
     if keys[pygame.K_DOWN]:
-        player_pos = (player_pos[0], player_pos[1] + player_speed)
+        player_pos[1] += player_speed
 
     # Check for collision with blocks
-    for block in blocks:
-        if block.colliderect(pygame.Rect(player_pos, PLAYER_SIZE)):
+    for block in blocks[:]:
+            pygame.draw.rect(screen, PLAYER_COLOR, pygame.Rect(tuple(player_pos) + PLAYER_SIZE))
             # Remove the block if the player collides with it
             blocks.remove(block)
             score += 1
@@ -72,16 +68,8 @@ while True:
         pygame.draw.rect(screen, BLOCK_COLOR, block)
 
     # Draw the player
-    pygame.draw.rect(screen, PLAYER_COLOR, (player_pos, PLAYER_SIZE))
-    print(score)
+    pygame.draw.rect(screen, PLAYER_COLOR, pygame.Rect(tuple(player_pos) + tuple(PLAYER_SIZE)))
 
-    if score == 20 :
-    for i in range(20):
-    x = random.randint(0, WIDTH - BLOCK_SIZE)
-    y = random.randint(0, HEIGHT - BLOCK_SIZE)
-    blocks.append(pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE))
-    screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, BLOCK_COLOR, block)
 
     # Update the display
     pygame.display.flip()
@@ -89,4 +77,8 @@ while True:
     # Limit the frame rate
     clock.tick(60)
 
-    
+    if score >= 20:
+        for _ in range(20):
+            x = random.randint(0, WIDTH - BLOCK_SIZE)
+            y = random.randint(0, HEIGHT - BLOCK_SIZE)
+            blocks.append(pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE))
